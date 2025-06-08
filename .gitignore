@@ -6,3 +6,5 @@ glfw-3.4/
 CMakeCache.txt
 cmake_install.cmake
 Makefile
+
+*.output

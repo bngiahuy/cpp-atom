@@ -72,6 +72,6 @@ The `cpp-atom` project is set up to build GLFW as part of its own compilation pr
 
 - `cmake .`: Configures the `cpp-atom` project using CMake. This command processes the `cpp-atom/CMakeLists.txt`, which in turn includes and configures the GLFW build from the `glfw-3.4` subdirectory. Build files are usually generated in the current directory or a `build` subdirectory depending on CMake's behavior and local configuration.
 - `make`: Compiles both the `cpp-atom` application and the local GLFW library as configured by CMake.
-- `./cpp-atom`: Executes the compiled `cpp-atom` application.
+- `./cpp-atom.output`: Executes the compiled `cpp-atom.output` application.
 
 If you encounter issues, double-check that the `glfw-3.4` directory is correctly named and placed within the `cpp-atom` project structure as described in Step 2, and that all prerequisites from Step 1 are met.

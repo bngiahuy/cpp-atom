@@ -7,6 +7,6 @@ find_package(OpenGL REQUIRED)
 
 add_subdirectory( glfw-3.4 )
 
-add_executable(cpp-atom main.cpp)
+add_executable(cpp-atom.output main.cpp)
 
-target_link_libraries(cpp-atom glfw OpenGL::GL)
+target_link_libraries(cpp-atom.output glfw OpenGL::GL)

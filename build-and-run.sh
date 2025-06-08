@@ -1,1 +1,2 @@
-cmake . && make && ./cpp-atom
+#!/bin/bash
+cmake . && make && ./cpp-atom.output
