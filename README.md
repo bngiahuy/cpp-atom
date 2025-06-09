@@ -59,7 +59,79 @@ The `cpp-atom` project, as configured by its main `CMakeLists.txt`, builds GLFW 
 
 **Note:** As mentioned, the `cpp-atom` project's current `CMakeLists.txt` uses `add_subdirectory(glfw-3.4)`. This means it will compile GLFW from the local source code found in `cpp-atom/glfw-3.4/` during its own build process, regardless of whether a system-wide version of GLFW is installed. The installation steps above are for making GLFW available more broadly.
 
-## 4. Building and Running the `cpp-atom` Project
+## 4. Installing GLAD
+
+1.  **Go to the GLAD Website:**
+
+    - Open your web browser and navigate to [https://glad.dav1d.de/](https://glad.dav1d.de/).
+
+2.  **Configure GLAD Generation:**
+
+    - **Language:** Set to `C/C++`.
+    - **Specification:** Select `OpenGL`.
+    - **API:**
+      - `gl`: Choose `4.6` (latest stable modern OpenGL) or `3.3` (a common baseline if your hardware is older). For a new project, `4.6` is recommended.
+    - **Profile:** Select `Core`.
+    - **Options:** Check `Generate a loader`. Optionally, check `Debug` for better error messages during development.
+    - Click the `GENERATE` button.
+
+3.  **Download GLAD Files:**
+
+    - After generation, click the `DOWNLOAD` button. This will download a `.zip` archive.
+
+4.  **Extract and Place Files in Your Project:**
+
+    - Unzip the downloaded archive. You will find:
+      - An `include/` folder (containing `KHR/` and `glad/` subfolders).
+      - A `src/` folder (containing `glad.c`).
+    - **Copy these into your project's directory structure:**
+      - Place the `include/` folder (with `KHR/` and `glad/` inside it) into your project's main `include/` directory (e.g., `your_project/include/`).
+      - Place the `glad.c` file into your project's `src/` directory (e.g., `your_project/src/`).
+
+5.  **Configure CMake to Compile and Link GLAD:**
+
+    - Open your `CMakeLists.txt` file.
+    - **Find OpenGL:** Add `find_package(OpenGL REQUIRED)` to tell CMake to locate the OpenGL development files on your system.
+    - **Add `glad.c` to Sources:** Ensure `glad.c` is listed as a source file for your executable.
+    - **Link with OpenGL:** Link your executable against the `OpenGL::GL` target.
+
+    Here's a minimal example for your `CMakeLists.txt`:
+
+    ```cmake
+    cmake_minimum_required(VERSION 3.16)
+    project(AtomicSimulation LANGUAGES CXX)
+
+    # Set C++ standard (important for C++23)
+    set(CMAKE_CXX_STANDARD 23)
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+    # Find necessary packages
+    find_package(OpenGL REQUIRED) # Finds OpenGL
+    find_package(glfw3 3.3 REQUIRED) # Finds GLFW (assuming you've installed libglfw3-dev)
+
+    # Add project-specific include directories (where your glad/KHR headers are)
+    target_include_directories(${PROJECT_NAME} PRIVATE
+        ${PROJECT_SOURCE_DIR}/include # Points to your_project/include/
+    )
+
+    # Define your executable and its source files
+    # Make sure glad.c is included here!
+    add_executable(${PROJECT_NAME}
+        src/main.cpp
+        src/glad.c # Crucial: Compile GLAD's source file
+        # Add any other .cpp files for your project here
+    )
+
+    # Link libraries
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+        OpenGL::GL # Link against OpenGL
+        glfw # Link against GLFW
+    )
+    ```
+
+After these steps, when you build your project using CMake (e.g., `cmake -B build && cmake --build build`), CMake will compile `glad.c` along with your other source files and link everything correctly.
+
+## 5. Building and Running the `cpp-atom` Project
 
 The `cpp-atom` project is set up to build GLFW as part of its own compilation process, using the sources located in the `cpp-atom/glfw-3.4/` directory.
 

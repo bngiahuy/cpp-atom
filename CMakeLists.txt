@@ -7,7 +7,7 @@ find_package(OpenGL REQUIRED)
 
 add_subdirectory( glfw-3.4 )
 
-add_executable(${PROJECT_NAME} main.cpp glad.c)
+add_executable(${PROJECT_NAME} src/main.cpp src/glad.c)
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${PROJECT_SOURCE_DIR}/include # Points to your_project/include/
